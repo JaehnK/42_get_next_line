@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jaehukim <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jaehukim <jaehukim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:23:47 by jaehukim          #+#    #+#             */
-/*   Updated: 2024/03/21 14:13:18 by jaehukim         ###   ########.fr       */
+/*   Updated: 2024/03/25 23:14:36 by jaehukim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "get_next_line.h"
 
 int	ft_check_newline(char *str)
@@ -27,84 +28,98 @@ int	ft_check_newline(char *str)
 	return (0);
 }
 
-char	*ft_read_text(int fd)
+int	ft_read_text(int fd, char **remain)
 {
-	int		f;
+	int		rcnt;
 	int		idx;
-	char	*bf;
+	char	*buf;
 
-	f = 0;
 	idx = 0;
-	bf = (char *) malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!bf)
-		return (NULL);
-	while (!ft_check_newline(bf) && f >= 0)
+	buf = (char *) ft_calloc(sizeof(char), BUFFER_SIZE + 1);
+	while (1)
 	{
-		f = read(fd, bf + idx, BUFFER_SIZE);
-		bf = ft_gnl_strdup(bf, BUFFER_SIZE);
-		idx += f;
-//		printf("BF: %s\n", bf);
+		rcnt = read(fd, buf + idx, BUFFER_SIZE);
+		buf[BUFFER_SIZE + idx] = '\0';
+		idx += BUFFER_SIZE;
+		buf = ft_gnl_strdup(buf, BUFFER_SIZE);
+		if (rcnt < BUFFER_SIZE || ft_check_newline(buf))
+			break ;
 	}
-	return (bf);
+	(*remain) = ft_gnl_strjoin((*remain), buf);
+	free(buf);
+	return (rcnt);
 }
 
-char	*get_ans(char *remain, char *buf)
+char	*ft_get_answer(char **remain)
 {
+	char	*temp;
 	char	*ans;
+	int		idx_nl;
+	int		idx_end;
 
-	if (!remain && !buf)
-		ans = ft_gnl_strjoin(remain, buf, 0, 0);
-	if (!remain && buf)
-		ans = ft_gnl_strjoin(remain, buf, 0, ft_strlen(buf, '\n'));
-	if (remain && !buf)
-		ans = ft_gnl_strjoin(remain, buf, ft_strlen(remain, '\n'), 0);
-	if (remain && buf)
-		ans = ft_gnl_strjoin(remain, buf, ft_strlen(remain, '\0'),\
-				ft_strlen(buf, '\n'));
+	idx_nl = ft_strlen((*remain), '\n') + 1;
+	idx_end = ft_strlen((*remain), '\0');
+	ans = ft_substr((*remain), 0, idx_nl);
+	temp = ft_substr((*remain), idx_nl, idx_end + 1);
+	free(*remain);
+	*remain = temp;
 	return (ans);
 }
 
-char	*update_remain(char *remain, char *buf)
+char	*ft_return(int f, char **remain, char **ans)
 {
-	char	*tmp;
-	
-	if (!buf)
-		tmp = ft_updater(remain);
-	else
-		tmp = ft_updater(buf);
-	free(buf);
-	free(remain);
-	return (tmp);
+	if (f == 0 && (!*ans || **ans == '\0'))
+	{
+		free(*ans);
+		free(*remain);
+		*remain = NULL;
+		return (NULL);
+	}
+	if (f < 0)
+	{
+		if (*remain)
+		{
+			free(*remain);
+			*remain = NULL;
+		}
+		if (*ans)
+			free(*ans);
+		return (NULL);
+	}
+	return (*ans);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	*remain;
-	char		*buf;
 	char		*ans;
+	int			f;
 
+	f = 0;
+	if (BUFFER_SIZE <= 0)
+		return (NULL);
 	if (!ft_check_newline(remain))
-		buf = ft_read_text(fd);
-	else
-		buf = NULL;
-	ans = get_ans(remain, buf);
-	remain = update_remain(remain, buf);
-	return (ans);
+		f = ft_read_text(fd, &remain);
+	ans = ft_get_answer(&remain);
+	return (ft_return(f, &remain, &ans));
 }
+
+
 /*
 int	main(void)
 {
-	int	fd;
-	char *ptr;
+	int		fd;
+	char	*r;
 
 	fd = open("./tests/1-brouette.txt", O_RDONLY);
-	for (int i = 0; i < 3; i++)
+	r = get_next_line(fd);
+	while (r)
 	{
-		ptr =get_next_line(fd);
-		printf("PTR: %s", ptr);
-		printf("\n--------------------\n");
-		free(ptr);
+		r = get_next_line(fd);
+		printf("%s\n", r);
+		free(r);
 	}
 	close(fd);
 	return (0);
-}*/
+}
+*/
