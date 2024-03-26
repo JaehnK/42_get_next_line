@@ -6,7 +6,7 @@
 /*   By: jaehukim <jaehukim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:23:47 by jaehukim          #+#    #+#             */
-/*   Updated: 2024/03/25 23:14:36 by jaehukim         ###   ########.fr       */
+/*   Updated: 2024/03/26 15:57:52 by jaehukim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*ft_get_answer(char **remain)
 
 char	*ft_return(int f, char **remain, char **ans)
 {
-	if (f == 0 && (!*ans || **ans == '\0'))
+	if (!*ans || **ans == '\0')
 	{
 		free(*ans);
 		free(*remain);
@@ -103,23 +103,3 @@ char	*get_next_line(int fd)
 	ans = ft_get_answer(&remain);
 	return (ft_return(f, &remain, &ans));
 }
-
-
-/*
-int	main(void)
-{
-	int		fd;
-	char	*r;
-
-	fd = open("./tests/1-brouette.txt", O_RDONLY);
-	r = get_next_line(fd);
-	while (r)
-	{
-		r = get_next_line(fd);
-		printf("%s\n", r);
-		free(r);
-	}
-	close(fd);
-	return (0);
-}
-*/

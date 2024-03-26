@@ -6,7 +6,7 @@
 /*   By: jaehukim <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/16 15:07:59 by jaehukim          #+#    #+#             */
-/*   Updated: 2024/03/25 22:23:04 by jaehukim         ###   ########.fr       */
+/*   Updated: 2024/03/26 15:58:14 by jaehukim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -37,24 +37,27 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	return ((void *) ptr);
 }
 
-char	*ft_gnl_strjoin(char const *s1, char const *s2)
+char	*ft_gnl_strjoin(char *s1, char const *s2)
 {
 	char	*ans;
 	int		i;
+	int		i_s1;
 	int		len1;
 	int		len2;
 
 	i = 0;
+	i_s1 = 0;
 	len1 = ft_strlen(s1, '\0');
 	len2 = ft_strlen(s2, '\0');
 	ans = (char *) ft_calloc(sizeof(char), (len1 + len2 + 1));
 	if (!ans)
 		return (NULL);
 	while (s1 && i < len1)
-		ans[i++] = *s1++;
+		ans[i++] = s1[i_s1++];
 	while (s2 && i < len1 + len2)
 		ans[i++] = *s2++;
 	ans[i] = '\0';
+	free(s1);
 	return (ans);
 }
 
