@@ -6,20 +6,18 @@
 /*   By: jaehukim <jaehukim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 16:24:27 by jaehukim          #+#    #+#             */
-/*   Updated: 2024/03/26 15:23:51 by jaehukim         ###   ########.fr       */
+/*   Updated: 2024/03/29 10:41:52 by jaehukim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1024
 # endif
 
 # include <stdlib.h>
 # include <unistd.h>
-//제출전 삭제하기
-# include <fcntl.h>
-# include <stdio.h>
 
 void	*ft_calloc(size_t nmemb, size_t size);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
