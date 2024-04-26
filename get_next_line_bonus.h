@@ -6,12 +6,12 @@
 /*   By: jaehukim <jaehukim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 16:24:27 by jaehukim          #+#    #+#             */
-/*   Updated: 2024/03/29 10:41:52 by jaehukim         ###   ########.fr       */
+/*   Updated: 2024/04/26 15:28:35 by jaehukim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1024
 # endif
