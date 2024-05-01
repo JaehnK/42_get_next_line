@@ -6,7 +6,7 @@
 /*   By: jaehukim <jaehukim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/15 13:23:47 by jaehukim          #+#    #+#             */
-/*   Updated: 2024/04/26 14:00:17 by jaehukim         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:37:43 by jaehukim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,6 @@ char	*get_next_line(int fd)
 	int			f;
 
 	f = 0;
-	if ((fd < 2) && (fd > 1024))
-		return (NULL);
 	if (BUFFER_SIZE <= 0)
 		return (NULL);
 	if (!ft_check_newline(remain[fd]))
